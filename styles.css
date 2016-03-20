@@ -3,6 +3,8 @@
 *,
 *::before,
 *::after {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -17,6 +19,7 @@ body {
   height: 100%;
   min-width: 320px;
   font-family: sans-serif;
+  background-color: lightblue;
 }
 
 .viewport {
@@ -27,18 +30,29 @@ body {
 }
 
 /* form styling */
+h1 {
+  margin: 2rem 0 2rem 40%;
+}
+
 .row {
   margin-bottom: 2rem;
 }
 
 .row label {
   display: inline-block;
-  width: 30%;
+  width: 40%;
   padding-right: 2rem;
   text-align: right;
 }
 
 .row input {
-  width: 30%;
+  width: 40%;
+  max-width: 40rem;
   padding: 1rem;
+}
+
+.row button {
+  margin-left: 40%;
+  padding: 1rem;
+  font-size: 1em;
 }
