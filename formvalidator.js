@@ -20,7 +20,7 @@ data-validate-type="{phone, email, date}"
 ** used for validating a required field
 data-validate-required
 
-To-do: Add 'data-validate-type-check' checker to validateForm() to verify there are no 'fail' elements on the page before submitting. If so, don't submit.
+To-do: Add 'data-validate-type-check' checker to validateForm() to verify there are no 'fail' elements on the page before submitting. If so, don't submit. For this, expand validateField() to validateFields() that can take a jQuery object over which it iterates using each().
 
 */
 
