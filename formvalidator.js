@@ -38,7 +38,20 @@ To-do: Add 'data-validate-type-check' checker to validateForm() to verify there 
       // vars
       var $validateForm = $(this),
           $validateType = $validateForm.find('[data-validate-type]'),
-          $validateRequired = $validateForm.find('[data-validate-required]');
+          $validateRequired = $validateForm.find('[data-validate-required]'),
+          valueTest,
+          validateFunctions = {
+            email: function(valueTest) {
+              return isValidEmailAddress(valueTest);
+
+            },
+            date: function(valueTest) {
+              return isValidDate(valueTest);
+            },
+            phone: function(valueTest) {
+              return isValidPhoneNumber(valueTest);
+            }
+          };
 
       // init function
       function init() {
@@ -55,80 +68,19 @@ To-do: Add 'data-validate-type-check' checker to validateForm() to verify there 
         });
       }
 
-      // other functions
+      //********************
+      // Validate field
+      //********************
+
       function validateField(element) {
-        var $element = $(element);
-        switch ($element.data('validate-type')) {
-          case 'phone':
-            phoneVerification($element);
-            break;
-          case 'email':
-            emailVerification($element);
-            break;
-          case 'date':
-            dateVerification($element);
-            break;
-        }
-      }
+        var $element = $(element),
+            type = $element.data('validate-type'),
+            value = $element.val(),
+            validEntry = validateFunctions[type](value);
 
-      //********************
-      // Type verification
-      //********************
-
-      function typeVerification(element, type) {
-        var $element = $(element);
-
-        if ($element.val() === '') {
+        if (value === '') {
           setDataAttribute(element, 'type');
-        } else if (isValidEmailAddress($element.val())) {
-            setDataAttribute(element, 'type', 'success');
-        } else {
-          setDataAttribute(element, 'type', 'fail');
-        }
-      }
-
-      //********************
-      // Email verification
-      //********************
-
-      function emailVerification(element) {
-        var $element = $(element);
-
-        if ($element.val() === '') {
-          setDataAttribute(element, 'type');
-        } else if (isValidEmailAddress($element.val())) {
-            setDataAttribute(element, 'type', 'success');
-        } else {
-          setDataAttribute(element, 'type', 'fail');
-        }
-      }
-
-      //********************
-      // Date verification
-      //********************
-
-      function dateVerification(element) {
-        var $element = $(element);
-
-        if ($element.val() === '') {
-          setDataAttribute(element, 'type');
-        } else if (isValidDate($element.val())) {
-            setDataAttribute(element, 'type', 'success');
-        } else {
-          setDataAttribute(element, 'type', 'fail');
-        }
-      }
-
-      //********************
-      // Telephone number verification
-      //********************
-
-      function phoneVerification(element) {
-        var $element = $(element);
-
-        if ($element.val() === '') {
-          setDataAttribute(element, 'type');
-        } else if (isValidPhoneNumber($element.val())) {
+        } else if (validEntry) {
             setDataAttribute(element, 'type', 'success');
         } else {
           setDataAttribute(element, 'type', 'fail');
@@ -141,6 +93,7 @@ To-do: Add 'data-validate-type-check' checker to validateForm() to verify there 
 
       function isValidEmailAddress(emailAddress) {
           var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+          // console.log(pattern.test(emailAddress));
           return pattern.test(emailAddress);
       }
 
