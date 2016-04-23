@@ -12,18 +12,18 @@
 <body>
   <div class="viewport">
     <h1>Form validator</h1>
-    <form action="">
+    <form action="" data-validate-form="form">
       <div class="row">
-        <label for="name">Name</label><input type="text" id="name">
+        <label for="name">Name</label><input type="text" id="name" data-validate-required>
       </div>
       <div class="row">
-        <label for="birthdate">Date of birth</label><input type="text" id="birthdate">
+        <label for="birthdate">Date of birth</label><input type="text" id="birthdate" data-validate-type="date">
       </div>
       <div class="row">
-        <label for="email">Email</label><input type="text" id="email">
+        <label for="email">Email</label><input type="text" id="email" data-validate-type="email">
       </div>
       <div class="row">
-        <label for="phone">Phone number</label><input type="text" id="phone">
+        <label for="phone">Phone number</label><input type="text" id="phone" data-validate-type="phone">
       </div>
       <div class="row">
         <button>Submit</button>

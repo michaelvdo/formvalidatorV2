@@ -1,8 +1,8 @@
 /* basic reset */
 
 *,
-*::before,
-*::after {
+*:before,
+*:after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -55,4 +55,14 @@ h1 {
   margin-left: 40%;
   padding: 1rem;
   font-size: 1em;
+}
+
+[data-validate-required-check="fail"],
+[data-validate-type-check="fail"] {
+  border: 2px solid red;
+}
+
+[data-validate-required-check="success"],
+[data-validate-type-check="success"] {
+  border: 2px solid green;
 }
