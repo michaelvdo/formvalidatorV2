@@ -30,12 +30,18 @@ To-do: Add 'data-validate-type-check' checker to validateForm() to verify there 
 
   $.fn.formValidator = function(options) {
 
-    // settings
+    //********************
+    // Global settings (for each form called)
+    //********************
+
     var settings = $.extend({}, options);
 
     return this.each(function() {
 
-      // vars
+      //********************
+      // Vars
+      //********************
+
       var $validateForm = $(this),
           $validateType = $validateForm.find('[data-validate-type]'),
           $validateRequired = $validateForm.find('[data-validate-required]'),
@@ -43,7 +49,6 @@ To-do: Add 'data-validate-type-check' checker to validateForm() to verify there 
           validateFunctions = {
             email: function(valueTest) {
               return isValidEmailAddress(valueTest);
-
             },
             date: function(valueTest) {
               return isValidDate(valueTest);
@@ -53,12 +58,18 @@ To-do: Add 'data-validate-type-check' checker to validateForm() to verify there 
             }
           };
 
-      // init function
+      //********************
+      // Init function
+      //********************
+
       function init() {
         addEventHandlers();
       }
 
-      // event handler function
+      //********************
+      // Add event handlers
+      //********************
+
       function addEventHandlers() {
         $validateForm.on('submit', function(e) {
           validateForm(e, this);
@@ -93,7 +104,6 @@ To-do: Add 'data-validate-type-check' checker to validateForm() to verify there 
 
       function isValidEmailAddress(emailAddress) {
           var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-          // console.log(pattern.test(emailAddress));
           return pattern.test(emailAddress);
       }
 
@@ -117,7 +127,6 @@ To-do: Add 'data-validate-type-check' checker to validateForm() to verify there 
 
         // check all required fields for content
         $validateRequired.each(function() {
-          var $this = $(this);
           if ($.trim($(this).val()) === '') {
             setDataAttribute(this, 'required', 'fail');
             allRequiredFieldsFilledIn = false;
@@ -153,7 +162,9 @@ To-do: Add 'data-validate-type-check' checker to validateForm() to verify there 
         $(element).attr('data-validate-' + check + '-check', key);
       }
 
-      // run init function on document ready
+      //********************
+      // Run init() on document ready
+      //********************
       $(function() {
         init();
       });
