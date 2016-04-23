@@ -46,7 +46,8 @@ data-validate-required
     // event handler function
     var addEventHandlers = function() {
       $validateForm.on('submit', function(e) {
-        validateRequired(e, this);
+        validateForm(e, this);
+        // validateRequired(e, this);
       });
       $validateType.on('focusout', validateField);
     };
@@ -128,8 +129,7 @@ data-validate-required
     // Required verification
     //********************
 
-    var validateRequired = function(e, form) {
-      e.preventDefault();
+    var validateRequired = function() {
       var allRequiredFieldsFilledIn = true;
 
       // check all required fields for content
@@ -143,7 +143,17 @@ data-validate-required
         }
       });
 
-      if (allRequiredFieldsFilledIn) {
+      return allRequiredFieldsFilledIn;
+    };
+
+    //********************
+    // Form verification
+    //********************
+
+    var validateForm = function(e, form) {
+      e.preventDefault();
+
+      if (validateRequired()) {
         form.submit();
       }
     };
