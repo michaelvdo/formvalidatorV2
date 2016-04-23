@@ -20,6 +20,8 @@ data-validate-type="{phone, email, date}"
 ** used for validating a required field
 data-validate-required
 
+To-do: Add 'data-validate-type-check' checker to validateForm() to verify there are no 'fail' elements on the page before submitting. If so, don't submit.
+
 */
 
 ;(function($, formValidator) {
@@ -169,10 +171,6 @@ data-validate-required
       }
       $(element).attr('data-validate-' + check + '-check', key);
     };
-
-    //********************
-    // End set data-* attribute
-    //********************
 
     // run init function on document ready
     $(function() {
