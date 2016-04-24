@@ -50,16 +50,16 @@ Goal of the function
       var $validateForm = $(this),
           $validateType = $validateForm.find('[data-validate-type]'),
           $validateRequired = $validateForm.find('[data-validate-required]'),
-          valueTest,
+          userEntry,
           validateFunctions = {
-            email: function(valueTest) {
-              return isValidEmailAddress(valueTest);
+            email: function(userEntry) {
+              return isValidEmailAddress(userEntry);
             },
-            date: function(valueTest) {
-              return isValidDate(valueTest);
+            date: function(userEntry) {
+              return isValidDate(userEntry);
             },
-            phone: function(valueTest) {
-              return isValidPhoneNumber(valueTest);
+            phone: function(userEntry) {
+              return isValidPhoneNumber(userEntry);
             }
           };
 
@@ -78,7 +78,7 @@ Goal of the function
           validateForm(e, this);
         });
         $validateType.on('focusout', function() {
-          validateFields([this]);
+          validateTypeFields([this]);
         });
       }
 
@@ -87,7 +87,7 @@ Goal of the function
       * @param1 {array or object} list
       * @return {boolean} field(s) passed validation
       */
-      function validateFields(list) {
+      function validateTypeFields(list) {
         var allTypeFieldsSuccess = true;
         $.each(list, function(i, element) {
           var $element = $(element),
@@ -139,19 +139,19 @@ Goal of the function
       }
 
       /**
-      * Required field validator
-      * @return {boolean} all required fields have a value
+      * Validate required fields
+      * @param1 {array or object} list
+      * @return {boolean} field(s) passed validation
       */
-      function validateRequired() {
+      function validateRequired(list) {
         var allRequiredFieldsFilledIn = true;
 
-        // check all required fields for content
-        $validateRequired.each(function() {
-          if ($.trim($(this).val()) === '') {
-            setDataAttribute(this, 'required', 'fail');
+        $.each(list, function(i, element) {
+          if ($.trim($(element).val()) === '') {
+            setDataAttribute(element, 'required', 'fail');
             allRequiredFieldsFilledIn = false;
           } else {
-            setDataAttribute(this, 'required', 'success');
+            setDataAttribute(element, 'required', 'success');
           }
         });
 
@@ -166,7 +166,7 @@ Goal of the function
       function validateForm(e, form) {
         e.preventDefault();
 
-        if (validateRequired() && validateFields($validateType)) {
+        if (validateRequired($validateRequired) && validateTypeFields($validateType)) {
           form.submit();
         }
       }
