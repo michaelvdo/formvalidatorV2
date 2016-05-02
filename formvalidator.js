@@ -78,33 +78,8 @@ Goal of the function
           validateForm(e, this);
         });
         $validateType.on('focusout', function() {
-          validateTypeFields([this]);
+          validateItems(this);
         });
-      }
-
-      /**
-      * Validate type field(s)
-      * @param1 {array or object} list
-      * @return {boolean} field(s) passed validation
-      */
-      function validateTypeFields(list) {
-        var allTypeFieldsSuccess = true;
-        $.each(list, function(i, element) {
-          var $element = $(element),
-              type = $element.data('validate-type'),
-              value = $element.val(),
-              validEntry = validateFunctions[type](value);
-
-          if (value === '') {
-            setDataAttribute(element, 'type');
-          } else if (validEntry) {
-              setDataAttribute(element, 'type', 'success');
-          } else {
-            setDataAttribute(element, 'type', 'fail');
-            allTypeFieldsSuccess = false;
-          }
-        });
-        return allTypeFieldsSuccess;
       }
 
       /**
@@ -139,23 +114,44 @@ Goal of the function
       }
 
       /**
-      * Validate required fields
-      * @param1 {array or object} list
+      * Validate fields
+      * @param {jQuery object(s)}
       * @return {boolean} field(s) passed validation
       */
-      function validateRequired(list) {
-        var allRequiredFieldsFilledIn = true;
+      function validateItems() {
+        var allItemsPassed = true,
+            $object = $();
 
-        $.each(list, function(i, element) {
-          if ($.trim($(element).val()) === '') {
-            setDataAttribute(element, 'required', 'fail');
-            allRequiredFieldsFilledIn = false;
-          } else {
-            setDataAttribute(element, 'required', 'success');
+        for (var i = 0; i < arguments.length; i++) {
+          $object = $object.add(arguments[i]);
+        }
+
+        $.each($object, function(i, element) {
+          var $element = $(element),
+              type = $element.data('validate-type'),
+              required = (typeof $element.data('validate-required') === 'undefined') ? false : true,
+              value = $.trim($element.val()),
+              validEntry = (typeof type !== 'undefined') ? validateFunctions[type](value) : undefined;
+
+          if (required) {
+            if (value === '') {
+              setDataAttribute(element, 'required', 'fail');
+              allItemsPassed = false;
+            } else {
+              setDataAttribute(element, 'required', 'success');
+            }
+          } else if (type) {
+            if (value === '') {
+              setDataAttribute(element, 'type');
+            } else if (validEntry) {
+                setDataAttribute(element, 'type', 'success');
+            } else {
+              setDataAttribute(element, 'type', 'fail');
+              allItemsPassed = false;
+            }
           }
         });
-
-        return allRequiredFieldsFilledIn;
+        return allItemsPassed;
       }
 
       /**
@@ -166,7 +162,7 @@ Goal of the function
       function validateForm(e, form) {
         e.preventDefault();
 
-        if (validateRequired($validateRequired) && validateTypeFields($validateType)) {
+        if (validateItems($validateRequired, $validateType)) {
           form.submit();
         }
       }
