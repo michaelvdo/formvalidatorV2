@@ -22,6 +22,10 @@ data-validate-required
 
 To-do:
 
+** See https://jqueryvalidation.org/documentation/ for inspiration for functionality
+** https://jqueryvalidation.org/documentation/#link-list-of-built-in-validation-methods
+** https://jqueryvalidation.org/minlength-method
+
 Commenting style:
 
 Goal of the function
