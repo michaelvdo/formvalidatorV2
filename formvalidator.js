@@ -61,7 +61,8 @@ Goal of the function
             phone: function(userEntry) {
               return isValidPhoneNumber(userEntry);
             }
-          };
+          },
+          $inputsWithErrors = $();
 
       /**
       * Init functions
@@ -122,6 +123,8 @@ Goal of the function
         var allItemsPassed = true,
             $object = $();
 
+        $inputsWithErrors = $();
+
         for (var i = 0; i < arguments.length; i++) {
           $object = $object.add(arguments[i]);
         }
@@ -136,6 +139,7 @@ Goal of the function
           if (required) {
             if (value === '') {
               setDataAttribute(element, 'required', 'fail');
+              $inputsWithErrors = $inputsWithErrors.add(element);
               allItemsPassed = false;
             } else {
               setDataAttribute(element, 'required', 'success');
@@ -147,6 +151,7 @@ Goal of the function
                 setDataAttribute(element, 'type', 'success');
             } else {
               setDataAttribute(element, 'type', 'fail');
+              $inputsWithErrors = $inputsWithErrors.add(element);
               allItemsPassed = false;
             }
           }
@@ -164,6 +169,9 @@ Goal of the function
 
         if (validateItems($validateRequired, $validateType)) {
           form.submit();
+        } else {
+          // Put focus on the first error field
+          $inputsWithErrors.first().get(0).focus();
         }
       }
 
@@ -192,7 +200,7 @@ Goal of the function
   };
 
   $(function() {
-    $('#form').formValidator();
+    $('[data-validate-form]').formValidator();
   });
 
 })(jQuery);
