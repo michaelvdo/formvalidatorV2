@@ -125,20 +125,18 @@ Goal of the function
       */
       function validateItems() {
         var allItemsPassed = true,
-            $object = $();
-
-        $inputsWithErrors = $();
+            $inputsToValidate = $();
 
         for (var i = 0; i < arguments.length; i++) {
-          $object = $object.add(arguments[i]);
+          $inputsToValidate = $inputsToValidate.add(arguments[i]);
         }
 
-        $.each($object, function(i, element) {
+        $.each($inputsToValidate, function(i, element) {
           var $element = $(element),
               type = $element.data('validate-type'),
-              required = (typeof $element.data('validate-required') === 'undefined') ? false : true,
-              value = $.trim($element.val()),
-              validEntry = (typeof type !== 'undefined') ? validateFunctions[type](value) : undefined;
+              required = $element.is('[data-validate-required]'),
+              value = $.trim($element.val());
+              // validEntry = (typeof type !== 'undefined') ? validateFunctions[type](value) : undefined;
 
           if (required) {
             if (value === '') {
@@ -148,10 +146,12 @@ Goal of the function
             } else {
               setDataAttribute(element, 'required', 'success');
             }
-          } else if (type) {
+          }
+
+          if (type) {
             if (value === '') {
               setDataAttribute(element, 'type');
-            } else if (validEntry) {
+            } else if (validateFunctions[type](value)) {
                 setDataAttribute(element, 'type', 'success');
             } else {
               setDataAttribute(element, 'type', 'fail');
@@ -159,6 +159,7 @@ Goal of the function
               allItemsPassed = false;
             }
           }
+
         });
         return allItemsPassed;
       }
