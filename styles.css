@@ -57,12 +57,28 @@ h1 {
   font-size: 1em;
 }
 
-[data-validate-required-check="fail"],
-[data-validate-type-check="fail"] {
-  border: 2px solid red;
+.row .checkbox {
+  position: relative;
+  display: block;
+  margin-bottom: 2rem;
+  padding-right: 2rem;
+}
+
+.row .checkbox input {
+  position: absolute;
+  top: 50%;
+  right: -2rem;
+  width: 2rem;
+  height: 2rem;
+  transform: translateY(-50%);
 }
 
 [data-validate-required-check="success"],
 [data-validate-type-check="success"] {
   border: 2px solid green;
+}
+
+[data-validate-required-check="fail"],
+[data-validate-type-check="fail"] {
+  border: 2px solid red;
 }

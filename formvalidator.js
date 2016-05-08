@@ -127,6 +127,8 @@ Goal of the function
         var allItemsPassed = true,
             $inputsToValidate = $();
 
+        $inputsWithErrors = $();
+
         for (var i = 0; i < arguments.length; i++) {
           $inputsToValidate = $inputsToValidate.add(arguments[i]);
         }
@@ -136,7 +138,6 @@ Goal of the function
               type = $element.data('validate-type'),
               required = $element.is('[data-validate-required]'),
               value = $.trim($element.val());
-              // validEntry = (typeof type !== 'undefined') ? validateFunctions[type](value) : undefined;
 
           if (required) {
             if (value === '') {
@@ -161,6 +162,7 @@ Goal of the function
           }
 
         });
+        console.log($inputsWithErrors);
         return allItemsPassed;
       }
 
